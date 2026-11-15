@@ -14,11 +14,18 @@ starting the graphical interface.
   `tests/test_bst.cpp`. It supports insertion, removal, search, height,
   in-order traversal, and clearing. Duplicate values are ignored; an empty
   tree has height `-1`.
-- **Game shell and chambers:** not implemented in this checkpoint. The Shifting
-  Maze rules and GUI integration are planned after the core logic.
+- **Graph:** implemented in `src/ds/Graph.h` with standalone tests in
+  `tests/test_graph.cpp`.
+- **Shifting Maze logic:** implemented in `src/chambers/ShiftingMaze.h` and
+  `src/chambers/ShiftingMaze.cpp`, with tests in
+  `tests/test_shifting_maze.cpp`. Players follow left/right BST branches toward
+  a target, correct one designated value by removing and reinserting it, and
+  win after both objectives are complete. Three incorrect choices lose the
+  round.
+- **Game shell, GUI, and other chambers:** not implemented yet.
 
-The work in this branch is Mahandar's BST implementation. Stack and Queue are
-Ramiq's modules; the Graph, Bridge Builder, and project documentation are
+This branch contains Mahandar's BST and Shifting Maze logic. Stack and Queue
+are Ramiq's modules; the Graph, Bridge Builder, and project documentation are
 Jatin's assigned modules.
 
 ## Run the data-structure tests
@@ -35,6 +42,12 @@ g++ -std=c++17 tests/test_queue.cpp -o test_queue.exe
 
 g++ -std=c++17 tests/test_bst.cpp -o test_bst.exe
 .\test_bst.exe
+
+g++ -std=c++17 tests/test_graph.cpp -o test_graph.exe
+.\test_graph.exe
+
+g++ -std=c++17 tests/test_shifting_maze.cpp src/chambers/ShiftingMaze.cpp -o test_shifting_maze.exe
+.\test_shifting_maze.exe
 ```
 
 Each test is a separate console program. The game build and GUI instructions
