@@ -52,3 +52,36 @@ g++ -std=c++17 tests/test_shifting_maze.cpp src/chambers/ShiftingMaze.cpp -o tes
 
 Each test is a separate console program. The game build and GUI instructions
 will be added when the game shell is available.
+
+## Chamber 4: Bridge Builder (Graph)
+
+**What it is:** islands are Graph vertices and bridges are Graph edges. Build bridges so a route connects the START island to the GOAL island before you run out of moves. Some bridges are blocked until you turn on a switch. Every build, remove and switch costs one move. Refused moves are free and show a reason.
+
+**How the Graph is used:** `buildBridge` calls `Graph::addEdge`, `removeBridge` calls `Graph::removeEdge`, and `hasRoute` runs a breadth-first search over `Graph::neighbors`. A blocked bridge is not in the Graph until its switch is on and you build it.
+
+**Levels**
+
+| Level | Islands | Start / Goal | Move limit | Switches |
+| --- | --- | --- | --- | --- |
+| Easy | 5 | 0 / 4 | 6 | 1 (optional) |
+| Hard | 7 | 0 / 6 | 5 | 2 (required) |
+
+**Build and play (console version)**
+
+```
+g++ -std=c++11 tests/play_bridge_builder.cpp src/chambers/BridgeBuilder.cpp -o play_bridge_builder
+./play_bridge_builder
+```
+
+**Controls:** `build A B`, `remove A B`, `switch N`, `reset`, `help`, `quit`.
+
+**Run the tests**
+
+```
+g++ -std=c++11 tests/test_graph.cpp -o test_graph && ./test_graph
+g++ -std=c++11 tests/test_bridge_builder.cpp src/chambers/BridgeBuilder.cpp -o test_bridge_builder && ./test_bridge_builder
+```
+
+**Files:** `src/ds/Graph.h`, `src/chambers/BridgeBuilder.h/.cpp`, `tests/test_graph.cpp`, `tests/test_bridge_builder.cpp`, `tests/play_bridge_builder.cpp`, `docs/class-diagram.md`.
+
+**Author:** Jatin Malani (Graph, Bridge Builder, documentation).
