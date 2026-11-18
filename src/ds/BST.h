@@ -1,194 +1,178 @@
 #pragma once
+#include<iostream>
+#include<ostream>
+using namespace std;
 
-#include <iostream>
-#include <ostream>
-
-class BST
-{
+class Node{
 public:
-	struct Node
-	{
-		int data;
-		Node* left;
-		Node* right;
+    int data;
+    Node* left;
+    Node* right;
 
-		explicit Node(int value) : data(value), left(nullptr), right(nullptr) {}
-	};
+    Node(int value){
+        data=value;
+        left=nullptr;
+        right=nullptr;
+    }
+};
 
-	BST() : rootNode(nullptr) {}
-
-	~BST()
-	{
-		clear();
-	}
-
-	BST(const BST&) = delete;
-	BST& operator=(const BST&) = delete;
-
-	void insert(int value)
-	{
-		rootNode = insertNode(rootNode, value);
-	}
-
-	bool remove(int value)
-	{
-		bool removed = false;
-		rootNode = removeNode(rootNode, value, removed);
-		return removed;
-	}
-
-	bool contains(int value) const
-	{
-		return containsNode(rootNode, value);
-	}
-
-	int height() const
-	{
-		return getHeight(rootNode);
-	}
-
-	Node* root() const
-	{
-		return rootNode;
-	}
-
-	void clear()
-	{
-		clearNodes(rootNode);
-		rootNode = nullptr;
-	}
-
-	void inorder(std::ostream& output = std::cout) const
-	{
-		bool first = true;
-		writeInorder(rootNode, output, first);
-		output << '\n';
-	}
-
+class BST{
 private:
-	Node* rootNode;
+    Node* rootNode;
 
-	static Node* insertNode(Node* node, int value)
-	{
-		if (node == nullptr)
-		{
-			return new Node(value);
-		}
+    static Node* insertNode(Node* node,int value){
+        if(node==nullptr){
+            return new Node(value);
+        }
 
-		if (value < node->data)
-		{
-			node->left = insertNode(node->left, value);
-		}
-		else if (value > node->data)
-		{
-			node->right = insertNode(node->right, value);
-		}
+        if(value<node->data){
+            node->left=insertNode(node->left,value);
+        }
+        else if(value>node->data){
+            node->right=insertNode(node->right,value);
+        }
 
-		return node;
-	}
+        return node;
+    }
 
-	static Node* removeNode(Node* node, int value, bool& removed)
-	{
-		if (node == nullptr)
-		{
-			return nullptr;
-		}
+    static Node* findMin(Node* node){
+        while(node!=nullptr && node->left!=nullptr){
+            node=node->left;
+        }
+        return node;
+    }
 
-		if (value < node->data)
-		{
-			node->left = removeNode(node->left, value, removed);
-		}
-		else if (value > node->data)
-		{
-			node->right = removeNode(node->right, value, removed);
-		}
-		else
-		{
-			removed = true;
+    static Node* removeNode(Node* node,int value,bool& removed){
+        if(node==nullptr){
+            return nullptr;
+        }
 
-			if (node->left == nullptr)
-			{
-				Node* rightChild = node->right;
-				delete node;
-				return rightChild;
-			}
+        if(value<node->data){
+            node->left=removeNode(node->left,value,removed);
+        }
+        else if(value>node->data){
+            node->right=removeNode(node->right,value,removed);
+        }
+        else{
+            removed=true;
 
-			if (node->right == nullptr)
-			{
-				Node* leftChild = node->left;
-				delete node;
-				return leftChild;
-			}
+            if(node->left==nullptr){
+                Node* temp=node->right;
+                delete node;
+                return temp;
+            }
+            else if(node->right==nullptr){
+                Node* temp=node->left;
+                delete node;
+                return temp;
+            }
 
-			Node* successor = node->right;
-			while (successor->left != nullptr)
-			{
-				successor = successor->left;
-			}
+            Node* temp=findMin(node->right);
+            node->data=temp->data;
 
-			node->data = successor->data;
-			bool successorRemoved = false;
-			node->right = removeNode(node->right, successor->data, successorRemoved);
-		}
+            bool dummy=false;
+            node->right=removeNode(node->right,temp->data,dummy);
+        }
 
-		return node;
-	}
+        return node;
+    }
 
-	static bool containsNode(const Node* node, int value)
-	{
-		if (node == nullptr)
-		{
-			return false;
-		}
+    static bool containsNode(const Node* node,int value){
+        if(node==nullptr){
+            return false;
+        }
 
-		if (value == node->data)
-		{
-			return true;
-		}
+        if(value==node->data){
+            return true;
+        }
 
-		return value < node->data
-			? containsNode(node->left, value)
-			: containsNode(node->right, value);
-	}
+        if(value<node->data){
+            return containsNode(node->left,value);
+        }
 
-	static int getHeight(const Node* node)
-	{
-		if (node == nullptr)
-		{
-			return -1;
-		}
+        return containsNode(node->right,value);
+    }
 
-		int leftHeight = getHeight(node->left);
-		int rightHeight = getHeight(node->right);
-		return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
-	}
+    static int getHeight(const Node* node){
+        if(node==nullptr){
+            return 0;
+        }
 
-	static void clearNodes(Node* node)
-	{
-		if (node == nullptr)
-		{
-			return;
-		}
+        int leftHeight=getHeight(node->left);
+        int rightHeight=getHeight(node->right);
 
-		clearNodes(node->left);
-		clearNodes(node->right);
-		delete node;
-	}
+        return 1+max(leftHeight,rightHeight);
+    }
 
-	static void writeInorder(const Node* node, std::ostream& output, bool& first)
-	{
-		if (node == nullptr)
-		{
-			return;
-		}
+    static void clearNodes(Node* node){
+        if(node==nullptr){
+            return;
+        }
 
-		writeInorder(node->left, output, first);
-		if (!first)
-		{
-			output << ' ';
-		}
-		output << node->data;
-		first = false;
-		writeInorder(node->right, output, first);
-	}
+        clearNodes(node->left);
+        clearNodes(node->right);
+        delete node;
+    }
+
+    static void writeInorder(const Node* node,ostream& output,bool& first){
+        if(node==nullptr){
+            return;
+        }
+
+        writeInorder(node->left,output,first);
+
+        if(!first){
+            output<<" ";
+        }
+
+        output<<node->data;
+        first=false;
+
+        writeInorder(node->right,output,first);
+    }
+
+public:
+    BST(){
+        rootNode=nullptr;
+    }
+
+    ~BST(){
+        clear();
+    }
+
+    BST(const BST&)=delete;
+    BST& operator=(const BST&)=delete;
+
+    void insert(int value){
+        rootNode=insertNode(rootNode,value);
+    }
+
+    bool remove(int value){
+        bool removed=false;
+        rootNode=removeNode(rootNode,value,removed);
+        return removed;
+    }
+
+    bool contains(int value) const{
+        return containsNode(rootNode,value);
+    }
+
+    int height() const{
+        return getHeight(rootNode);
+    }
+
+    Node* root() const{
+        return rootNode;
+    }
+
+    void clear(){
+        clearNodes(rootNode);
+        rootNode=nullptr;
+    }
+
+    void inorder(ostream& output=cout) const{
+        bool first=true;
+        writeInorder(rootNode,output,first);
+        output<<'\n';
+    }
 };
