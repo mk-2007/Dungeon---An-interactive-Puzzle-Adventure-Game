@@ -8,7 +8,6 @@ int main(int argc, char* argv[])
 {
 	Hub hub;
 
-	// Open one chamber directly: dungeon --scene tree
 	if (argc == 3 && string(argv[1]) == "--scene")
 	{
 		if (!hub.openByName(argv[2]))

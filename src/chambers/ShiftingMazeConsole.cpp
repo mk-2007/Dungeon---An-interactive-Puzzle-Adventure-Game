@@ -5,15 +5,14 @@
 
 using namespace std;
 
-// Everything needed to describe one level.
 struct MazeLevel
 {
 	const char* name;
-	const int* values;   // numbers inserted into the BST, in this order
+	const int* values;
 	int count;
-	int target;          // the room that holds the key
-	int wrongValue;      // the broken room that must be replaced
-	int fixedValue;      // the number that replaces it
+	int target;
+	int wrongValue;
+	int fixedValue;
 };
 
 const int easyValues[] = { 50, 30, 70, 20, 40, 60, 80 };

@@ -157,7 +157,6 @@ void Hub::openChamber(int index, bool practice)
 
 	bool won = playChamber(index);
 
-	// Practice mode never changes the story progress.
 	if (won && !practice)
 	{
 		progress.completeChamber(index);
@@ -214,7 +213,6 @@ const char* Hub::chamberTopic(int index)
 	return "";
 }
 
-// A chamber is ready when its play function is connected in playChamber.
 bool Hub::isReady(int index)
 {
 	switch (index)
@@ -225,9 +223,6 @@ bool Hub::isReady(int index)
 	return false;
 }
 
-// Starts a chamber and returns true when the player wins it.
-// When a teammate finishes a chamber, add their include at the top of this
-// file, call their function here, and add the chamber to isReady above.
 bool Hub::playChamber(int index)
 {
 	switch (index)

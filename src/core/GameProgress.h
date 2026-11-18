@@ -1,7 +1,5 @@
 #pragma once
 
-// Remembers which chambers the player has finished (story mode).
-// Chambers open in order: finishing one unlocks the next one.
 class GameProgress
 {
 public:
@@ -32,8 +30,6 @@ public:
 		return isValid(chamber) && completed[chamber];
 	}
 
-	// Marks a chamber as finished and unlocks the next one.
-	// A locked chamber cannot be completed.
 	bool completeChamber(int chamber)
 	{
 		if (!isUnlocked(chamber))
