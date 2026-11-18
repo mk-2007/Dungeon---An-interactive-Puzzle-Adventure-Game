@@ -12,7 +12,7 @@ public:
 	Stack()
 	{
 		top = -1;
-		capacity = 4;
+		capacity = 100;
 		Arr = new T[capacity];
 	}
 
@@ -39,7 +39,7 @@ public:
 		return true;
 	}
 
-	bool peek(T& out)
+	bool peek(T& out) const
 	{
 		if(isEmpty()) { return false; }
 		out = Arr[top];
