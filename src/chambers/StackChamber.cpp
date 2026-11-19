@@ -11,17 +11,17 @@ StackChamber::StackChamber(Difficulty Diff)
 
     if (Diff == Difficulty::EASY)
     {
-        s[0].push(3); s[0].push(4); s[0].push(-5);
-        s[1].push(1); s[1].push(-2); s[1].push(6);
-        s[2].push(1000); s[2].push(-8); s[2].push(9);
-        s[3].push(-1); s[3].push(2); s[3].push(-3);
+        s[0].push(3); s[0].push(4); s[0].push(-5); s[0].push(6);
+        s[1].push(1); s[1].push(-2); s[1].push(6); s[1].push(-7);
+        s[2].push(1000); s[2].push(-8); s[2].push(9); s[2].push(-10);
+        s[3].push(-1); s[3].push(2); s[3].push(-3); s[3].push(4);
     }
     else
     {
-        s[0].push(-4); s[0].push(5); s[0].push(-6);
-        s[1].push(1000); s[1].push(-2); s[1].push(3);
-        s[2].push(-8); s[2].push(9); s[2].push(-2);
-        s[3].push(5); s[3].push(-4); s[3].push(1);
+        s[0].push(-4); s[0].push(5); s[0].push(-6); s[0].push(7);
+        s[1].push(1000); s[1].push(-2); s[1].push(3); s[1].push(-4);
+        s[2].push(-8); s[2].push(9); s[2].push(-2); s[2].push(3);
+        s[3].push(5); s[3].push(-4); s[3].push(1); s[3].push(-3);
     }
 }
 
