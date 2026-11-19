@@ -1,48 +1,15 @@
-/*
-	SPIRIT CONVEYER BELT
-
-	One conveyer belt implemented using a queue.
-	
-	Easy Mode:
-	There are 4 spirits: Fire, Water, Grass, Earth.
-
-	Fire cannot be next to water.
-	Grass cannot be next to fire.
-	Water cannot be next to earth.
-	Grass wants to be next to water.
-
-	Correct Solutions:
-	Water Grass Earth Fire
-	Fire Earth Grass Water
-
-	
-	Hard Mode:
-
-	7 Spirits: Fire, Water, Grass, Earth, Ice, Light, Dark
-
-	
-	Fire cannot be next to water.
-	Grass cannot be next to fire.
-	Ice cannot be next to fire.
-	Light cannot be next to dark.
-	Grass cannot be next to dark.
-	Fire cannot be next to Dark.
-
-	Earth cannot be next to Ice.
-	Earth cannot be next to water.
-
-	Grass wants to be next to water.
-	Grass wants to be next to light.
-	Grass cannot be next to ice.
-	
-*/
+#pragma once
+#include <string>
+#include "../ds/Queue.h"
 
 class Spirit
 {
 public:
-	string name;
+	std::string name;
 	bool used;
-	Spirit(string name) : name(name), used(false) {}
+
+	Spirit() : name(""), used(false) {}
+	Spirit(std::string name) : name(name), used(false) {}
 };
 
 enum Difficulty
@@ -51,17 +18,26 @@ enum Difficulty
 	HARD
 };
 
-class SpiritConveyerBelt 
+class SpiritConveyerBelt
 {
-	Queue <Spirit> conveyerBelt;
+public:
+	Queue<Spirit> conveyerBelt;
 	Spirit** ArrayofSolutions;
 	Spirit* UserAnswer;
-	bool SolutionFound;
+	int numSolutions;
+	int beltSize;
+	bool solutionFound;
 
-	SpiritConveyerBelt::~SpiritConveyerBelt()
+
 	SpiritConveyerBelt(Difficulty diff);
-	bool CheckAnswer();
-	bool match(Spirit User, Spirit System);
+	~SpiritConveyerBelt();
+
+	SpiritConveyerBelt(const SpiritConveyerBelt&) = delete;
+	SpiritConveyerBelt& operator=(const SpiritConveyerBelt&) = delete;
+
+	bool checkAnswer();
+	bool match(const Spirit& user, const Spirit& system);
 	void insert(Spirit key);
 	void undo();
+	bool isSolved() const { return solutionFound; }
 };
