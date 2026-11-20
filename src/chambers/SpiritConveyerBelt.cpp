@@ -19,7 +19,6 @@ SpiritConveyerBelt::SpiritConveyerBelt(Difficulty diff)
 
 		ArrayofSolutions[0] = new Spirit[4]{ Spirit("Water"), Spirit("Grass"), Spirit("Earth"), Spirit("Fire") };
 		ArrayofSolutions[1] = new Spirit[4]{ Spirit("Fire"), Spirit("Earth"), Spirit("Grass"), Spirit("Water") };
-		// These two obey the same rules (Grass beside Water, Fire only beside Earth) but were missing:
 		ArrayofSolutions[2] = new Spirit[4]{ Spirit("Grass"), Spirit("Water"), Spirit("Earth"), Spirit("Fire") };
 		ArrayofSolutions[3] = new Spirit[4]{ Spirit("Fire"), Spirit("Earth"), Spirit("Water"), Spirit("Grass") };
 	}
@@ -65,10 +64,10 @@ SpiritConveyerBelt::~SpiritConveyerBelt()
 
 bool SpiritConveyerBelt::insert(Spirit key)
 {
-	// Nothing more can be placed once the puzzle is solved.
+
 	if (solutionFound || conveyerBelt.isFull()) return false;
 
-	// A spirit can only be on the belt once.
+	
 	for (QNode<Spirit>* cur = conveyerBelt.front; cur != nullptr; cur = cur->next)
 	{
 		if (cur->data.name == key.name)
@@ -91,7 +90,6 @@ void SpiritConveyerBelt::undo()
 {
 	if (conveyerBelt.isEmpty()) return;
 
-	// Rotate the queue so the most recently added spirit is at the front, then remove it.
 	int n = conveyerBelt.getSize();
 	Spirit temp;
 	for (int i = 0; i < n - 1; i++)
@@ -104,8 +102,6 @@ void SpiritConveyerBelt::undo()
 
 bool SpiritConveyerBelt::checkAnswer()
 {
-	// Only a full belt can be checked. Previously, calling this early dequeued
-	// nothing, compared stale/empty UserAnswer data and wiped the partial belt.
 	if (!conveyerBelt.isFull()) return false;
 
 	for (int i = 0; i < beltSize; i++)
