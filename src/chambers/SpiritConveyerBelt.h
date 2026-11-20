@@ -27,7 +27,7 @@ public:
 	int numSolutions;
 	int beltSize;
 	bool solutionFound;
-
+	bool lastAttemptWrong;      
 
 	SpiritConveyerBelt(Difficulty diff);
 	~SpiritConveyerBelt();
@@ -37,7 +37,8 @@ public:
 
 	bool checkAnswer();
 	bool match(const Spirit& user, const Spirit& system);
-	void insert(Spirit key);
+	bool insert(Spirit key); 
 	void undo();
 	bool isSolved() const { return solutionFound; }
+	bool wasLastAttemptWrong() const { return lastAttemptWrong; }
 };

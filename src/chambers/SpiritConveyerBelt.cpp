@@ -7,17 +7,20 @@ SpiritConveyerBelt::SpiritConveyerBelt(Difficulty diff)
 	UserAnswer(nullptr),
 	numSolutions(0),
 	beltSize(0),
-	solutionFound(false)
+	solutionFound(false),
+	lastAttemptWrong(false)
 {
 	if (diff == EASY)
 	{
 		beltSize = 4;
-		numSolutions = 2;
+		numSolutions = 4;
 		ArrayofSolutions = new Spirit * [numSolutions];
 		UserAnswer = new Spirit[beltSize];
 
 		ArrayofSolutions[0] = new Spirit[4]{ Spirit("Water"), Spirit("Grass"), Spirit("Earth"), Spirit("Fire") };
 		ArrayofSolutions[1] = new Spirit[4]{ Spirit("Fire"), Spirit("Earth"), Spirit("Grass"), Spirit("Water") };
+		ArrayofSolutions[2] = new Spirit[4]{ Spirit("Grass"), Spirit("Water"), Spirit("Earth"), Spirit("Fire") };
+		ArrayofSolutions[3] = new Spirit[4]{ Spirit("Fire"), Spirit("Earth"), Spirit("Water"), Spirit("Grass") };
 	}
 	else
 	{
@@ -59,22 +62,28 @@ SpiritConveyerBelt::~SpiritConveyerBelt()
 	delete[] UserAnswer;
 }
 
-void SpiritConveyerBelt::insert(Spirit key)
+bool SpiritConveyerBelt::insert(Spirit key)
 {
+
+	if (solutionFound || conveyerBelt.isFull()) return false;
+
+	
 	for (QNode<Spirit>* cur = conveyerBelt.front; cur != nullptr; cur = cur->next)
 	{
 		if (cur->data.name == key.name)
 		{
-			return;
+			return false;
 		}
 	}
 
+	lastAttemptWrong = false;
 	conveyerBelt.enqueue(key);
 
 	if (conveyerBelt.isFull())
 	{
 		checkAnswer();
 	}
+	return true;
 }
 
 void SpiritConveyerBelt::undo()
@@ -93,6 +102,8 @@ void SpiritConveyerBelt::undo()
 
 bool SpiritConveyerBelt::checkAnswer()
 {
+	if (!conveyerBelt.isFull()) return false;
+
 	for (int i = 0; i < beltSize; i++)
 	{
 		conveyerBelt.dequeue(UserAnswer[i]);
@@ -113,9 +124,12 @@ bool SpiritConveyerBelt::checkAnswer()
 		if (correct)
 		{
 			solutionFound = true;
+			lastAttemptWrong = false;
 			return true;
 		}
 	}
+
+	lastAttemptWrong = true;
 	return false;
 }
 
