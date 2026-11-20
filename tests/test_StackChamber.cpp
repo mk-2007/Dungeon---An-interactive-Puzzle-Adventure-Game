@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "StackChamber.h"
+#include "../src/chambers/StackChamber.h"
 
 using namespace std;
 
@@ -18,15 +18,23 @@ int main()
     StackChamber easy(Difficulty::EASY);
 
     check(!easy.isWin(), "EASY: Game starts without a win.");
-    check(easy.canMovetohelper(2), "EASY: Can move to empty helper (9).");
+    
+   
+    check(easy.canMovetohelper(2), "EASY: Can move to empty helper (-10).");
     check(!easy.canMovetoStack(0), "EASY: Cannot move from empty helper.");
 
-    easy.moveStackToHelper(2);
-    check(!easy.isWin(), "EASY: Key not found after moving 9.");
+    easy.moveStackToHelper(2); 
+    check(!easy.isWin(), "EASY: Key not found after moving -10.");
 
+   
+    check(easy.canMovetohelper(2), "EASY: Can move 9 onto -10 (opposite signs).");
+    easy.moveStackToHelper(2); 
+
+   
     check(easy.canMovetohelper(2), "EASY: Can move -8 onto 9 (opposite signs).");
-    easy.moveStackToHelper(2);
+    easy.moveStackToHelper(2); 
 
+   
     check(easy.isWin(), "EASY: Win condition met (Key 1000 revealed).");
     check(easy.isKeyRevealed(2), "EASY: isKeyRevealed returns true for key stack.");
 
@@ -35,7 +43,8 @@ int main()
 
     check(!easy.isWin() == false, "EASY: Win state persists even after moving crates.");
 
-    check(!easy.canMovetohelper(1), "EASY: Cannot move 6 onto 9 (same signs).");
+   
+    check(easy.canMovetohelper(1), "EASY: Can move -7 onto 9 (opposite signs).");
 
 
     cout << "\n====================================\n";
@@ -45,24 +54,30 @@ int main()
 
     check(!hard.isWin(), "HARD: Game starts without a win.");
 
-    check(hard.canMovetohelper(0), "HARD: Can move -6 to empty helper.");
+    
+    check(hard.canMovetohelper(1), "HARD: Can move -4 to empty helper.");
+    hard.moveStackToHelper(1); 
+
+    
+    check(hard.canMovetohelper(1), "HARD: Can move 3 onto -4 (opp signs, opp parity).");
+    hard.moveStackToHelper(1);
+
+   
+    check(hard.canMovetohelper(1), "HARD: Can move -2 onto 3 (opp signs, opp parity).");
+    hard.moveStackToHelper(1); 
+
+    
+    check(hard.isWin(), "HARD: Win condition met (Key 1000 revealed).");
+
+   
+    check(hard.canMovetohelper(0), "HARD: Can move 7 onto -2 (opp signs, opp parity).");
     hard.moveStackToHelper(0);
 
-    check(hard.canMovetohelper(3), "HARD: Can move 1 onto -6 (opp signs, opp parity).");
-    hard.moveStackToHelper(3);
+    
+    check(!hard.canMovetohelper(3), "HARD: Cannot move -3 onto 7 (opp signs, SAME parity - both odd).");
 
-    check(!hard.canMovetohelper(0), "HARD: Cannot move 5 onto 1 (same parity - both odd).");
-
-    check(hard.canMovetohelper(2), "HARD: Can move -2 onto 1 (opp signs, opp parity).");
-    hard.moveStackToHelper(2);
-
-    check(hard.canMovetohelper(1), "HARD: Can move 3 onto -2 (opp signs, opp parity).");
-    hard.moveStackToHelper(1);
-
-    check(hard.canMovetohelper(1), "HARD: Can move -2 onto 3 (opp signs, opp parity).");
-    hard.moveStackToHelper(1);
-
-    check(hard.isWin(), "HARD: Win condition met (Key 1000 revealed).");
+    
+    check(!hard.canMovetohelper(2), "HARD: Cannot move 3 onto 7 (same signs).");
 
 
     cout << "\n====================================\n";
