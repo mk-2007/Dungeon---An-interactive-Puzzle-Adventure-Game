@@ -69,7 +69,7 @@ will be added when the game shell is available.
 **Build and play (console version)**
 
 ```
-g++ -std=c++11 tests/play_bridge_builder.cpp src/chambers/BridgeBuilder.cpp -o play_bridge_builder
+g++ -std=c++11 tests/play_bridge_builder.cpp src/chambers/BridgeBuilderConsole.cpp src/chambers/BridgeBuilder.cpp -o play_bridge_builder
 ./play_bridge_builder
 ```
 
