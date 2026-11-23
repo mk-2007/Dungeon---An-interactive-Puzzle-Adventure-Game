@@ -1,6 +1,9 @@
 #include <iostream>
 #include "Hub.h"
+#include "../chambers/StackVaultConsole.h"
+#include "../chambers/ForgottenQueueConsole.h"
 #include "../chambers/ShiftingMazeConsole.h"
+#include "../chambers/BridgeBuilderConsole.h"
 
 using namespace std;
 
@@ -217,7 +220,10 @@ bool Hub::isReady(int index)
 {
 	switch (index)
 	{
+	case stackVault:
+	case forgottenQueue:
 	case shiftingMaze:
+	case bridgeBuilder:
 		return true;
 	}
 	return false;
@@ -227,8 +233,14 @@ bool Hub::playChamber(int index)
 {
 	switch (index)
 	{
+	case stackVault:
+		return playStackChamber();
+	case forgottenQueue:
+		return playForgottenQueue();
 	case shiftingMaze:
 		return playShiftingMaze();
+	case bridgeBuilder:
+		return playBridgeBuilder();
 	}
 	return false;
 }
