@@ -1,2 +1,5 @@
+build/
+*.exe
+.vs/
 DSA_Project_Team_Guide.docx
 Project Proposal.docx

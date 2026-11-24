@@ -34,6 +34,7 @@ public:
 	int incorrectMoveCount() const;
 	const BST::Node* currentNode() const;
 	bool containsKey(int value) const;
+	const BST& getTree() const { return tree; }
 
 private:
 	static const int maxIncorrectMoves = 3;
